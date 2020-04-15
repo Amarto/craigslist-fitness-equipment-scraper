@@ -23,3 +23,15 @@ def is_post_relevant(post_title, search_str):
             search_term_hit_count += 1
 
     return (search_term_hit_count/len(search_terms)) >= .5
+
+def process_post(post):
+
+    return {
+        'title': get_post_title(post),
+        'days_since_posted': get_days_since(post.find('time', class_= 'result-date')['datetime']),
+        'price': '$' + str(parse_price(post.find('span', class_= 'result-price').text)),
+        'neighborhood': clean_neighborhood(post.find('span', class_= 'result-hood')),
+    }
+
+def get_post_title(post):
+    return post.find('a', class_= 'result-title hdrlnk').text
